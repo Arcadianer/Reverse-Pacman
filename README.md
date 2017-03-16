@@ -5,7 +5,7 @@ inverted roles. Pac-Man is a AI-controlled Agent while the ghosts are controlled
 
 ### [Download the beta NOW](https://github.com/Arcadianer/Reverse-Pacman/releases)
 
-If you can read german you can use this [link]() to read the full documentation.
+If you can read german you can use this [link]() to read the full documentation.\n
 **But the documentation is still wip**
 
 ### Tutorial (WIP)
