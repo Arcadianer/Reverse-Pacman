@@ -1,13 +1,17 @@
-## Welcome to GitHub Pages
+## Welcome to REVERSE PACMAN
 
-You can use the [editor on GitHub](https://github.com/Arcadianer/Reverse-Pacman/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+„Reverse-Pac-Man“, a variation of the classic Pac-Man game with
+inverted roles. Pac-Man is a AI-controlled Agent and the ghosts can be controlled over an app.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### [Download the beta NOW](https://github.com/Arcadianer/Reverse-Pacman/releases)
+
+If you can read german you can use this [link]() to read the full documentation.
+**But the documentation is still wip**
 
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
+	
 ```markdown
 Syntax highlighted code block
 
