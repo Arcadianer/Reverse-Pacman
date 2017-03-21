@@ -10,8 +10,3 @@ If you can read german you can use this [link](https://github.com/Arcadianer/Rev
 
 ### Tutorial (WIP)
 ### Screenshot (WIP)
-<<<<<<< HEAD
-
-
-=======
->>>>>>> branch 'pre-merge' of https://github.com/Arcadianer/Reverse-Pacman.git
