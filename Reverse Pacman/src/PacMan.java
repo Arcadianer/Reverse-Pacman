@@ -275,8 +275,9 @@ public class PacMan extends GameGrid implements gamecontroller {
 		case 0:
 			temp = new Ghostplayer(this, 5, navi);
 			tpb.addPlayer(temp, "GHOST GHOST");
-			playerlist.add(temp);
+			//playerlist.add(temp);
 			addActor(temp, PacGrid.spawn_ghost1, Location.NORTH);
+			KIData.zeroghost=true;
 			break;
 		case 1:
 			temp = new Ghostplayer(this, 1, navi);
@@ -393,7 +394,7 @@ public class PacMan extends GameGrid implements gamecontroller {
  */
 	public boolean pacwin() {
 
-		if ((pacActor.nbPills) >= PacGrid.points || playerlist.size() == 0) {
+		if ((pacActor.nbPills) >= PacGrid.points ||  (!KIData.zeroghost&&playerlist.size() == 0)) {
 
 			Sounds.ppsound.stop();
 			Sounds.gamemusic.stop();

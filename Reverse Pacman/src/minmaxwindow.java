@@ -104,7 +104,7 @@ public class minmaxwindow extends JFrame {
 				}
 				gamestate gs = new gamestate(PacGrid.clonemaze(), PacMan.pacActor.getLocation(), ghlist, PacMan.pacActor.getpills(),
 						KIActor.getpower, PacMan.pacActor.getwalked(), PacMan.pacActor.getPpills());
-				Gaertner gr=new Gaertner(gs);
+				Gaertner gr=new Gaertner(gs,KIData.zeroghost);
 				gr.maketree();
 				Tree_Node root=gr.minmax();
 			

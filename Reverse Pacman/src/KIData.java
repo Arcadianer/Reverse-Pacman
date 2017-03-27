@@ -139,6 +139,10 @@ public class KIData {
 	public static connectscreen cs;
 	
 	public static boolean zappelswitch = false;
+	/**
+	 * Activates zeroghost state
+	 */
+	public static boolean zeroghost=false;
 
 	/**
 	 * Adds an {@link kidataupdater} to the Updaterlist

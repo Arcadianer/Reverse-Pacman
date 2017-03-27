@@ -20,11 +20,11 @@ public class Gaertner {
 	public ArrayList<Tree_Node> leaves;
 	public static int devcount = 0;
 	public static ArrayList<Location> block = null;
-
-	public Gaertner(gamestate groot) {
+	private boolean zeroghost=false;
+	public Gaertner(gamestate groot,boolean zeroghost) {
 		this.groot = groot;
 		this.root = new Tree_Node(groot, true, null);
-
+		this.zeroghost=zeroghost;
 	}
 /**
  * Creates a decision tree
@@ -170,12 +170,12 @@ public class Gaertner {
 
 				double temp = simplelenghth(gs.pacloc, ghloc);
 				if (temp == 0) {
-					ghdisscore = ghdisscore + 100000.0;
+					ghdisscore = ghdisscore + 1000.0;
 				} else if (temp <= 3) {
 
-					ghdisscore = ghdisscore + (500.0 / (temp * temp * temp * temp));
+					ghdisscore = ghdisscore + (50.0 / (temp));
 				} else {
-					ghdisscore = ghdisscore + (200.0 / temp);
+					ghdisscore = ghdisscore + (20.0 / temp);
 				}
 
 			}
@@ -286,7 +286,8 @@ public class Gaertner {
 		if (pills_left == 0) {
 			return true;
 		}
-		if (playerlist.size() == 0) {
+		
+		if (!zeroghost&&playerlist.size() == 0) {
 			return true;
 		}
 		return false;

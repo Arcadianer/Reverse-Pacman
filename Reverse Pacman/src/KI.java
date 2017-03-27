@@ -491,7 +491,7 @@ public class KI {
 
 		gs.setPills_left(navi.pilllist.size());
 		Gaertner.tree_debth = KIData.Tree_Debth;
-		Gaertner test = new Gaertner(gs);
+		Gaertner test = new Gaertner(gs,KIData.zeroghost);
 		test.block = this.block;
 
 		int states = test.maketree();
@@ -565,7 +565,7 @@ public class KI {
 
 		gs.setPills_left(navi.pilllist.size());
 		Gaertner.tree_debth = KIData.Tree_Debth;
-		Gaertner test = new Gaertner(gs);
+		Gaertner test = new Gaertner(gs,KIData.zeroghost);
 		test.block = this.block;
 
 		int states = test.maketree();
