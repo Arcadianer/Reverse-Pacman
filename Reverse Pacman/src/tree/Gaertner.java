@@ -170,12 +170,12 @@ public class Gaertner {
 
 				double temp = simplelenghth(gs.pacloc, ghloc);
 				if (temp == 0) {
-					ghdisscore = ghdisscore + 100.0;
+					ghdisscore = ghdisscore + 10000.0;
 				} else if (temp <= 3) {
 
-					ghdisscore = ghdisscore + (50.0 / (temp * temp * temp * temp));
+					ghdisscore = ghdisscore + (500.0 / (temp * temp * temp * temp));
 				} else {
-					ghdisscore = ghdisscore + (20.0 / temp);
+					ghdisscore = ghdisscore + (200.0 / temp);
 				}
 
 			}
