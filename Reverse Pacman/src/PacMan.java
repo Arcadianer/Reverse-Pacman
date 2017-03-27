@@ -275,7 +275,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 		case 0:
 			temp = new Ghostplayer(this, 5, navi);
 			tpb.addPlayer(temp, "GHOST GHOST");
-			//playerlist.add(temp);
+			playerlist.add(temp);
 			addActor(temp, PacGrid.spawn_ghost1, Location.NORTH);
 			KIData.zeroghost=true;
 			break;
