@@ -213,11 +213,11 @@ public class Tree_Node {
 
 					if (winforghost(newstate.pacloc, newstate.isPacpower(), arraytolist(ghlocarr))) {
 						newstate.setterminal(true);
-						newstate.setUtillity(0);
+						
 					}
 					if (pacwin(newstate.pills_left)) {
 						newstate.setterminal(true);
-						newstate.setUtillity(100);
+						
 					}
 					newstate.ghloc = arraytolist(ghlocarr);
 					Tree_Node newnode = new Tree_Node(newstate, debthreached, this);
@@ -232,11 +232,11 @@ public class Tree_Node {
 
 					if (winforghost(newstate.pacloc, newstate.isPacpower(), arraytolist(ghlocarr))) {
 						newstate.setterminal(true);
-						newstate.setUtillity(0);
+						
 					}
 					if (pacwin(newstate.pills_left)) {
 						newstate.setterminal(true);
-						newstate.setUtillity(100);
+						
 					}
 					newstate.ghloc = arraytolist(ghlocarr);
 					Tree_Node newnode = new Tree_Node(newstate, debthreached, this);
@@ -250,11 +250,11 @@ public class Tree_Node {
 
 					if (winforghost(newstate.pacloc, newstate.isPacpower(), arraytolist(ghlocarr))) {
 						newstate.setterminal(true);
-						newstate.setUtillity(0);
+						
 					}
 					if (pacwin(newstate.pills_left)) {
 						newstate.setterminal(true);
-						newstate.setUtillity(100);
+						
 					}
 					newstate.ghloc = arraytolist(ghlocarr);
 					Tree_Node newnode = new Tree_Node(newstate, debthreached, this);
@@ -269,11 +269,11 @@ public class Tree_Node {
 
 					if (winforghost(newstate.pacloc, newstate.isPacpower(), arraytolist(ghlocarr))) {
 						newstate.setterminal(true);
-						newstate.setUtillity(0);
+						
 					}
 					if (pacwin(newstate.pills_left)) {
 						newstate.setterminal(true);
-						newstate.setUtillity(100);
+						
 					}
 					newstate.ghloc = arraytolist(ghlocarr);
 					Tree_Node newnode = new Tree_Node(newstate, debthreached, this);

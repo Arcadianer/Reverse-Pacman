@@ -93,6 +93,8 @@ public class KI {
 			break;
 		case 6:
 			random();
+		case 7:
+			random();
 
 		default:
 			break;
@@ -458,6 +460,79 @@ public class KI {
 	 * Algorithm that creates a decision tree to evaluate the next steps
 	 */
 	public void minmaxai() {
+
+		ArrayList<Location> ghlist = new ArrayList<Location>();
+
+		for (Ghostplayer gh : PacMan.playerlist) {
+			ghlist.add(gh.getLocation());
+		}
+
+		gamestate gs = new gamestate(PacGrid.clonemaze(), actor.getLocation(), ghlist, actor.getpills(),
+				KIActor.getpower, actor.getwalked(), actor.getPpills());
+
+		gs.setPills_left(navi.pilllist.size());
+		Gaertner.tree_debth=KIData.Tree_Debth;
+		Gaertner test = new Gaertner(gs);
+		test.block = this.block;
+
+		int states = test.maketree();
+
+		Tree_Node result = test.minmax();
+		block = null;
+		if (!(result == null)) {
+			Location pacloc = actor.getLocation();
+			actor.eatPill(pacloc);
+			Location walkto = result.getState().getPacloc();
+			double utility = result.getState().getUtillity();
+			KIData.pills = result.getState().getPills();
+			KIData.pacpower = result.getState().isPacpower();
+			KIData.utillity = result.getState().getUtillity();
+			KIData.isterminal = result.getState().isIsterminal();
+			KIData.pills_left = result.getState().getPills_left();
+			KIData.pacwalked = result.getState().getPacwalked();
+			KIData.ghost_k = result.getState().getGhost_k();
+			KIData.pilldistance = result.getState().getPilldistance();
+
+			KIData.pill_remain = result.getState().getPill_remain();
+			KIData.pillscore = result.getState().getPillscore();
+			KIData.ppill_remain = result.getState().getPpill_remain();
+			KIData.ppilldistance = result.getState().getPpilldistance();
+			System.out.println("PP " + actor.getPpills());
+			KIData.Ppillscore = result.getState().getPpillscore();
+			KIData.root = result.prev;
+			KIData.update();
+			System.out.println("STATS DEVELOPT : " + test.devcount + " Utillity : " + utility);
+			CompassDirection cd = pacloc.get4CompassDirectionTo(walkto);
+			zappelstop_pilldistance(pacloc);
+			KIData.updatestatus("RUNNING", Color.green);
+			switch (cd) {
+			case NORTH:
+
+				actor.up();
+				KIData.cdd = CompassDirection.NORTH;
+				break;
+			case SOUTH:
+				actor.down();
+				KIData.cdd = CompassDirection.SOUTH;
+				break;
+			case EAST:
+				actor.right();
+				KIData.cdd = CompassDirection.EAST;
+				break;
+			case WEST:
+				actor.left();
+				KIData.cdd = CompassDirection.WEST;
+				break;
+
+			}
+			KIData.update();
+		} else {
+			KIData.updatestatus("SHIT", Color.RED);
+			System.out.println("SHIT");
+		}
+
+	}
+	public void minmaxai_dynamic() {
 
 		ArrayList<Location> ghlist = new ArrayList<Location>();
 

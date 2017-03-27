@@ -88,7 +88,7 @@ public class KIoption extends JFrame implements kidataupdater {
 		comboBox = new JComboBox();
 		comboBox.setForeground(Color.GRAY);
 		comboBox.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 13));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"SMART_REFLEX_AGENT", "MINIMAX", "RANDOM", "SIMPLE_FIND_PILLS", "CRAZY_FIND_PILLS", "AVOID_GHOST"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"SMART_REFLEX_AGENT", "MINIMAX", "RANDOM", "SIMPLE_FIND_PILLS", "CRAZY_FIND_PILLS", "AVOID_GHOST", "MINIMAX_DYNAMIC"}));
 		comboBox.setSelectedIndex(1);
 
 		comboBox.setBounds(46, 450, 147, 20);
@@ -273,14 +273,20 @@ public class KIoption extends JFrame implements kidataupdater {
 					lblCurrentAi.setText("Current AI : Ghost Avoid");
 					break;
 
+				case 7:
+					KIData.KI_select = 7;
+					lblCurrentAi.setText("Current AI : Minimax Dynamic");
+					break;
+
 				}
+				
 				if(!(smartreflexwindow==null))
 					smartreflexwindow.setVisible(false);
 				smartreflexwindow=new smart_reflex_window();
 				if(!(minmax==null))
 					minmax.setVisible(false);
 				minmax = new minmaxwindow();
-				if (KIData.KI_select == 5) {
+				if (KIData.KI_select == 5 || KIData.KI_select==7) {
 					
 					minmax.setVisible(true);
 				} else {
