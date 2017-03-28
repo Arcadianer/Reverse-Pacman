@@ -301,6 +301,7 @@ public class KI {
 		 * Avoid ghost
 		 */
 		if (!(ghostyouaretoclose == null)) {
+			KIData.updatestatus("GHOST ALERT", Color.RED);
 			warningghost = true;
 			onroute = false;
 			boolean testloc1 = navi.movinglist[pacloc.y - 1][pacloc.x];
@@ -472,7 +473,7 @@ public class KI {
 			KIData.updatestatus("ZAPPEL", Color.RED);
 			
 		}
-		return result;
+		return false;
 	}
 
 	/**
