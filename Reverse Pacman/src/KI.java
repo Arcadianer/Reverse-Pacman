@@ -98,8 +98,10 @@ public class KI {
 			break;
 		case 6:
 			random();
+			break;
 		case 7:
 			minmaxai_dynamic();
+			break;
 		default:
 			break;
 		}
@@ -124,13 +126,13 @@ public class KI {
 			if (!switch_zappel) {
 				route = temp;
 			}
-			
+
 			if (PacMan.drawrouts)
 				route.drawroute(PacMan.getbg());
 		} else {
 
 			boolean there = navi.walkroute(route, actor);
-			switch_zappel=zappelstop_pilldistance(actor.getLocation());
+			switch_zappel = zappelstop_pilldistance(actor.getLocation());
 			if (there) {
 				onroute = false;
 				if (PacMan.drawrouts)
@@ -199,24 +201,23 @@ public class KI {
 				}
 			}
 			onroute = true;
-			if (!(force_zappelstop>0)) {
+			if (!(force_zappelstop > 0)) {
 				route = min;
-			}else{
+			} else {
 				force_zappelstop--;
 			}
-			
-		 if (KIData.draw_asearch)
+
+			if (KIData.draw_asearch)
 				route.drawroute(PacMan.getbg());
-		 findpill();
+			findpill();
 		} else {
 			boolean there = true;
 			try {
 				there = navi.walkroute(route, actor);
-				switch_zappel=zappelstop_pilldistance(actor.getLocation());
-				if(switch_zappel)
-					force_zappelstop=2;
-					
-				
+				switch_zappel = zappelstop_pilldistance(actor.getLocation());
+				if (switch_zappel)
+					force_zappelstop = 2;
+
 			} catch (Exception e) {
 
 			}
@@ -348,14 +349,17 @@ public class KI {
 				}
 			} else {
 				Route escape = findroutetopillwithwhitelist(chloc);
-
-				if (!zappelstop(pacloc.getCompassDirectionTo(escape.getnextcord(pacloc)))) {
-					try {
-						navi.walkroute(escape, actor);
-					} catch (Exception e) {
-						System.out.println("[AI] SHIT");
-						System.out.println(e.getMessage());
+				if (!(escape.getCordlist().size() > 1)) {
+					if (!zappelstop(pacloc.getCompassDirectionTo(escape.getnextcord(pacloc)))) {
+						try {
+							navi.walkroute(escape, actor);
+						} catch (Exception e) {
+							System.out.println("[AI] SHIT");
+							System.out.println(e.getMessage());
+						}
 					}
+				}else{
+					KIData.updatestatus("SHIT", Color.RED);
 				}
 
 			}
@@ -467,8 +471,7 @@ public class KI {
 	 */
 	public boolean zappelstop(CompassDirection next) {
 		boolean result = false;
-		
-		
+
 		if (invertedir(next) == actor.getlastmove()) {
 			zappelphilipcountert++;
 		} else {
@@ -477,7 +480,7 @@ public class KI {
 		if (zappelphilipcountert > 3) {
 			result = true;
 			KIData.updatestatus("ZAPPEL", Color.RED);
-			
+
 		}
 		return false;
 	}
@@ -498,7 +501,7 @@ public class KI {
 
 		gs.setPills_left(navi.pilllist.size());
 		Gaertner.tree_debth = KIData.Tree_Debth;
-		Gaertner test = new Gaertner(gs,KIData.zeroghost);
+		Gaertner test = new Gaertner(gs, KIData.zeroghost);
 		test.block = this.block;
 
 		int states = test.maketree();
@@ -572,7 +575,7 @@ public class KI {
 
 		gs.setPills_left(navi.pilllist.size());
 		Gaertner.tree_debth = KIData.Tree_Debth;
-		Gaertner test = new Gaertner(gs,KIData.zeroghost);
+		Gaertner test = new Gaertner(gs, KIData.zeroghost);
 		test.block = this.block;
 
 		int states = test.maketree();

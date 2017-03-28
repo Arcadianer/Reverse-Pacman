@@ -210,19 +210,10 @@ public class PacMan extends GameGrid implements gamecontroller {
 			killghost();
 			delay(10);
 		}
-		if (pacwin) {
-			getBg().setPaintColor(Color.yellow);
-			getBg().setFont(new Font("Arial", Font.BOLD, 96));
-			getBg().drawText("PACMAN WINS", new Point(toPoint(new Location(2, 15))));
-			KIData.updatestatus("PACMAN WINS", Color.green);
-			KIData.sk.update(1, KIData.Score);
-		} else {
-			getBg().setPaintColor(Color.red);
-			getBg().setFont(new Font("Arial", Font.BOLD, 96));
-			getBg().drawText("Game Over", new Point(toPoint(new Location(2, 15))));
-			KIData.updatestatus("Ghosts win", Color.red);
-			KIData.sk.update(0, KIData.Score);
-		}
+	
+		End_Game end=new End_Game(pacwin);
+		end.setVisible(true);
+	
 		Sounds.chomp.stop();
 		Sounds.gamemusic.stop();
 		nomusic = true;
@@ -450,7 +441,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 			KIData.reset();
 			KIData.statmode=true;
 			KIData.KI_select=aiselect;
-			KIData.simspeed=5;
+			KIData.simspeed=5; 
 			System.out.println("PP WAIT TIME :"+ (long) (KIData.simspeed*16.66666));
 			PacMan.debug=true;
 			PacMan.playerlist=new ArrayList<Ghostplayer>();
@@ -465,7 +456,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 			
 			
 		
-		System.out.println("REVERSE PACMAN v1.0 beta.1");
+		System.out.println("REVERSE PACMAN v1.0 beta.2");
 		Mainmenu mu = new Mainmenu();
 
 		mu.setVisible(true);
