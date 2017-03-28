@@ -199,16 +199,22 @@ public class KI {
 				}
 			}
 			onroute = true;
-			if (!switch_zappel) {
+			if (!(force_zappelstop>0)) {
 				route = min;
+			}else{
+				force_zappelstop--;
 			}
+			
 		 if (KIData.draw_asearch)
 				route.drawroute(PacMan.getbg());
+		 findpill();
 		} else {
 			boolean there = true;
 			try {
 				there = navi.walkroute(route, actor);
 				switch_zappel=zappelstop_pilldistance(actor.getLocation());
+				if(switch_zappel)
+					force_zappelstop=2;
 					
 				
 			} catch (Exception e) {
