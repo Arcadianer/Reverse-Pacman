@@ -93,7 +93,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 	/**
 	 * Setting that enables the debug options
 	 */
-	public static boolean debug = false;
+	public static boolean debug = true;
 	/**
 	 * Setting that draws the nodes on the Game-Grid
 	 */
