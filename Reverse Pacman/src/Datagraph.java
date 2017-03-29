@@ -79,7 +79,7 @@ public class Datagraph extends JFrame implements kidataupdater{
 		PPScore = new ChartPanel(ppscorechart);
 		PPScore.setBounds(0, 256, 342, 256);
 		contentPane.add(PPScore);
-		JFreeChart pilldistancechart=ChartFactory.createXYLineChart("Pilldistance", "SIM STEP", "SCORE", pilldistance);
+		JFreeChart pilldistancechart=ChartFactory.createXYLineChart("Pill Distance", "SIM STEP", "SCORE", pilldistance);
 		pilldistancechart=makedynamic(pilldistancechart);
 		Pilldistance = new ChartPanel(pilldistancechart);
 		Pilldistance.setMouseZoomable(true);

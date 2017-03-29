@@ -8,6 +8,7 @@ import javax.swing.text.html.HTMLDocument.HTMLReader.ParagraphAction;
 
 import block.block;
 import ch.aplu.jgamegrid.Location;
+
 /**
  * Generate decision tree
  */
@@ -15,21 +16,24 @@ public class Gaertner {
 	public static int tree_debth = 2;
 	public gamestate groot;
 	public Tree_Node root;
-	public static boolean Zappelstop=false;
+	public static boolean Zappelstop = false;
 	public static ArrayList<Tree_Node> endghostnode;
 	public ArrayList<Tree_Node> leaves;
 	public static int devcount = 0;
 	public static ArrayList<Location> block = null;
+	public static boolean zeroghost = false;
 
-	public Gaertner(gamestate groot) {
+	public Gaertner(gamestate groot, boolean zeroghost) {
 		this.groot = groot;
 		this.root = new Tree_Node(groot, true, null);
-
+		this.zeroghost = zeroghost;
 	}
-/**
- * Creates a decision tree
- * @return Number of Terminal Stats
- */
+
+	/**
+	 * Creates a decision tree
+	 * 
+	 * @return Number of Terminal Stats
+	 */
 	public int maketree() {
 		devcount = 0;
 		root.develop(0);
@@ -44,9 +48,10 @@ public class Gaertner {
 
 		return temp;
 	}
-/**
- * Counts the debth of the decision tree
- */
+
+	/**
+	 * Counts the debth of the decision tree
+	 */
 	public int count_debth(Tree_Node tn) {
 		int debth = 0;
 		Tree_Node current = tn;
@@ -59,20 +64,20 @@ public class Gaertner {
 
 		return debth;
 	}
-/**
- *Simulates gamestate further
- *Method calls itself recursive
- */
+
+	/**
+	 * Simulates gamestate further Method calls itself recursive
+	 */
 	public void develop_further(Tree_Node tn) {
 		if (count_debth(tn) < tree_debth) {
-			//Pacman develop
+			// Pacman develop
 			if (tn.pacmove) {
 				tn.develop(0);
 				for (int a = 0; a < tn.next.size(); a++) {
 					develop_further(tn.next.get(a));
 				}
 			} else {
-				//Ghost develop
+				// Ghost develop
 				endghostnode = new ArrayList<Tree_Node>();
 				endghostnode.clear();
 				tn.develop(1);
@@ -90,9 +95,10 @@ public class Gaertner {
 
 		}
 	}
-/**
- * Get all Gamestates from the same Parent
- */
+
+	/**
+	 * Get all Gamestates from the same Parent
+	 */
 	public ArrayList<Tree_Node> getpartners(Tree_Node tn) {
 
 		Tree_Node parent = tn.prev;
@@ -100,11 +106,14 @@ public class Gaertner {
 		return parent.next;
 
 	}
-/**
- *Evaluates gamestate and set utility
- *@param gs Gamestate to evaluate
- *@return utility
- */
+
+	/**
+	 * Evaluates gamestate and set utility
+	 * 
+	 * @param gs
+	 *            Gamestate to evaluate
+	 * @return utility
+	 */
 	public static double evalution_function(gamestate gs) {
 		// DEBUG FUNCTION
 		double result = 0;
@@ -120,17 +129,16 @@ public class Gaertner {
 			}
 		}
 		double pilldis = 0;
-				if(!Zappelstop){
-				pilldis = 5.0 / dis;
-				}else{
-				pilldis = 10.0 / dis;
-				}
-				/*
-				 * if(pilldistancerandome){ pilldis=-(Math.random()*100); }
-				 */
-				gs.setPilldistance(pilldis);
-				result = result + (pilldis);
-		
+		if (!Zappelstop) {
+			pilldis = 5.0 / dis;
+		} else {
+			pilldis = 10.0 / dis;
+		}
+		/*
+		 * if(pilldistancerandome){ pilldis=-(Math.random()*100); }
+		 */
+		gs.setPilldistance(pilldis);
+		result = result + (pilldis);
 
 		// PP DIS
 		ArrayList<Location> ppilllist = getpp(gs.gamegrid);
@@ -151,6 +159,7 @@ public class Gaertner {
 		result = result + (ppilldis);
 
 		double ghdisscore = 0;
+
 		if (!gs.isPacpower()) {
 			for (Location ghloc : gs.ghloc) {
 
@@ -170,18 +179,20 @@ public class Gaertner {
 
 				double temp = simplelenghth(gs.pacloc, ghloc);
 				if (temp == 0) {
-					ghdisscore = ghdisscore + 10000.0;
+					ghdisscore = ghdisscore + 100.0;
 				} else if (temp <= 3) {
 
-					ghdisscore = ghdisscore + (500.0 / (temp * temp * temp * temp));
+					ghdisscore = ghdisscore + (50.0 / (temp * temp * temp * temp ));
 				} else {
-					ghdisscore = ghdisscore + (200.0 / temp);
+					ghdisscore = ghdisscore + (20.0 / temp);
 				}
 
 			}
 		}
-		result = result + ghdisscore;
-		gs.setGhost_k(ghdisscore);
+		if (!zeroghost) {
+			result = result + ghdisscore;
+			gs.setGhost_k(ghdisscore);
+		}
 		// pill remain
 		// gs.setPill_remain((-4.0 * gs.pills_left));
 		// result = result + (-4.0 * gs.pills_left);
@@ -189,24 +200,28 @@ public class Gaertner {
 		// gs.setPpill_remain((-19.0 * gs.ppill_remain));
 		// result = result + (-19.0 * gs.ppill_remain);
 		// pilleaten
-		if(!Zappelstop){
+		if (!Zappelstop) {
 			gs.setPillscore(gs.pills * 6);
 			result = result + gs.pills * 6;
-			}else{
-				gs.setPillscore(gs.pills * 11);
-				result = result + gs.pills * 11;
-			}
-	
+		} else {
+			gs.setPillscore(gs.pills * 11);
+			result = result + gs.pills * 11;
+		}
+
 		// result=result-gs.pacwalked*1;
 		gs.setPpillscore(gs.Ppills * 10);
 		result = result + gs.Ppills * 10;
 
 		return result;
 	}
+
 	/**
 	 * Calculates direct length between start and goal location
-	 * @param start Start Location
-	 * @param goal End Location
+	 * 
+	 * @param start
+	 *            Start Location
+	 * @param goal
+	 *            End Location
 	 * @return Length to Block
 	 */
 	public static double simplelenghth(Location start, Location goal) {
@@ -216,8 +231,10 @@ public class Gaertner {
 		luftlinie = Math.sqrt((xtemp * xtemp) + (ytemp * ytemp));
 		return luftlinie;
 	}
+
 	/**
 	 * Gets all pills and adds them to the pilllist
+	 * 
 	 * @return pilllist of pill location list
 	 */
 	public static ArrayList<Location> getpills(block[][] maze) {
@@ -232,10 +249,12 @@ public class Gaertner {
 		}
 		return pilllist;
 	}
-/**
- * Get all Powerpills
- * @return Arraylist of PP Location
- */
+
+	/**
+	 * Get all Powerpills
+	 * 
+	 * @return Arraylist of PP Location
+	 */
 	public static ArrayList<Location> getpp(block[][] maze) {
 		ArrayList<Location> pilllist = new ArrayList<Location>();
 		for (int y = 0; y < maze.length; y++) {
@@ -248,8 +267,10 @@ public class Gaertner {
 		}
 		return pilllist;
 	}
+
 	/**
-	 * Checks if ghost won 
+	 * Checks if ghost won
+	 * 
 	 * @return true if ghost won
 	 */
 	public boolean winforghost(Location pacloc, boolean power, ArrayList<Location> playerlist) {
@@ -277,8 +298,10 @@ public class Gaertner {
 
 		return result;
 	}
+
 	/**
 	 * Checks if Pacman wins
+	 * 
 	 * @return true if Pacman has won
 	 */
 	public boolean pacwin(int pills_left, ArrayList<Location> playerlist) {
@@ -286,15 +309,16 @@ public class Gaertner {
 		if (pills_left == 0) {
 			return true;
 		}
-		if (playerlist.size() == 0) {
+
+		if (!zeroghost && playerlist.size() == 0) {
 			return true;
 		}
 		return false;
 	}
-/**
- * Performs MIN-MAX Algorithm
- * (SEE DOCUMENTATION FOR DETAILS)
- */
+
+	/**
+	 * Performs MIN-MAX Algorithm (SEE DOCUMENTATION FOR DETAILS)
+	 */
 	public Tree_Node minmax() {
 		ArrayList<Tree_Node> parentlist = new ArrayList<Tree_Node>();
 		for (Tree_Node tree_Node : leaves) {
@@ -408,14 +432,17 @@ public class Gaertner {
 
 		Tree_Node result = null;
 
-	
-		 if (!(block == null)) { for (Location blockloc : block) { for
-		  (Tree_Node tn : root.next) { if
-		  (tn.getState().getPacloc().toString().equals(blockloc.toString())) {
-		 tn.getState().setUtillity(-100000.0); } } }
-		  
-		  }
-		 
+		if (!(block == null)) {
+			for (Location blockloc : block) {
+				for (Tree_Node tn : root.next) {
+					if (tn.getState().getPacloc().toString().equals(blockloc.toString())) {
+						tn.getState().setUtillity(-100000.0);
+					}
+				}
+			}
+
+		}
+
 		if (root.next.size() > 0) {
 			Tree_Node max = root.next.get(0);
 			for (Tree_Node tn : root.next) {
@@ -457,7 +484,7 @@ public class Gaertner {
 
 	/**
 	 * @param root
-	 * the root to set
+	 *            the root to set
 	 */
 	public void setRoot(Tree_Node root) {
 		this.root = root;

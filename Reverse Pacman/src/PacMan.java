@@ -93,7 +93,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 	/**
 	 * Setting that enables the debug options
 	 */
-	public static boolean debug = false;
+	public static boolean debug = true;
 	/**
 	 * Setting that draws the nodes on the Game-Grid
 	 */
@@ -210,19 +210,10 @@ public class PacMan extends GameGrid implements gamecontroller {
 			killghost();
 			delay(10);
 		}
-		if (pacwin) {
-			getBg().setPaintColor(Color.yellow);
-			getBg().setFont(new Font("Arial", Font.BOLD, 96));
-			getBg().drawText("PACMAN WINS", new Point(toPoint(new Location(2, 15))));
-			KIData.updatestatus("PACMAN WINS", Color.green);
-			KIData.sk.update(1, KIData.Score);
-		} else {
-			getBg().setPaintColor(Color.red);
-			getBg().setFont(new Font("Arial", Font.BOLD, 96));
-			getBg().drawText("Game Over", new Point(toPoint(new Location(2, 15))));
-			KIData.updatestatus("Ghosts win", Color.red);
-			KIData.sk.update(0, KIData.Score);
-		}
+	
+		End_Game end=new End_Game(pacwin);
+		end.setVisible(true);
+	
 		Sounds.chomp.stop();
 		Sounds.gamemusic.stop();
 		nomusic = true;
@@ -277,6 +268,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 			tpb.addPlayer(temp, "GHOST GHOST");
 			playerlist.add(temp);
 			addActor(temp, PacGrid.spawn_ghost1, Location.NORTH);
+			KIData.zeroghost=true;
 			break;
 		case 1:
 			temp = new Ghostplayer(this, 1, navi);
@@ -393,7 +385,7 @@ public class PacMan extends GameGrid implements gamecontroller {
  */
 	public boolean pacwin() {
 
-		if ((pacActor.nbPills) >= PacGrid.points || playerlist.size() == 0) {
+		if ((pacActor.nbPills) >= PacGrid.points ||  (!KIData.zeroghost&&playerlist.size() == 0)) {
 
 			Sounds.ppsound.stop();
 			Sounds.gamemusic.stop();
@@ -449,7 +441,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 			KIData.reset();
 			KIData.statmode=true;
 			KIData.KI_select=aiselect;
-			KIData.simspeed=5;
+			KIData.simspeed=5; 
 			System.out.println("PP WAIT TIME :"+ (long) (KIData.simspeed*16.66666));
 			PacMan.debug=true;
 			PacMan.playerlist=new ArrayList<Ghostplayer>();
@@ -464,7 +456,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 			
 			
 		
-		System.out.println("REVERSE PACMAN v1.0 beta.1");
+		System.out.println("REVERSE PACMAN v1.0 beta.2");
 		Mainmenu mu = new Mainmenu();
 
 		mu.setVisible(true);

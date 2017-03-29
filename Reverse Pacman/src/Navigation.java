@@ -496,7 +496,7 @@ public class Navigation {
 			actor.left();
 		}
 
-		return true;
+		return false;
 
 	}
 /**

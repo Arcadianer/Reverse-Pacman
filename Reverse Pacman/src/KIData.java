@@ -104,6 +104,7 @@ public class KIData {
 	public static Tree_Node root;
 	public static gamecontroller gm;
 	public static Tree_Node resultleave;
+	
 	public static int Tree_Debth = 2;
 	/**
 	 * Distance that triggers the ghost scare event in the smart reflex agent
@@ -139,6 +140,10 @@ public class KIData {
 	public static connectscreen cs;
 	
 	public static boolean zappelswitch = false;
+	/**
+	 * Activates zeroghost state
+	 */
+	public static boolean zeroghost=false;
 
 	/**
 	 * Adds an {@link kidataupdater} to the Updaterlist
