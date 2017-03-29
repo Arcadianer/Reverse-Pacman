@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.net.UnknownHostException;
 import java.nio.charset.spi.CharsetProvider;
 import java.security.AlgorithmParameterGenerator;
 import java.util.ArrayList;
@@ -72,9 +73,6 @@ public class minmaxwindow extends JFrame {
 	public JLabel lblImmage;
 	public JLabel lblcutMinmaxAgent;
 	public Tree_Node currentroot;
-	
-
-
 
 	/**
 	 * Create the frame.
@@ -89,7 +87,7 @@ public class minmaxwindow extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		btnShowTree = new JButton("Show tree");
 		btnShowTree.setToolTipText("Shows the minimax search tree");
@@ -103,45 +101,55 @@ public class minmaxwindow extends JFrame {
 				for (Ghostplayer gh : PacMan.playerlist) {
 					ghlist.add(gh.getLocation());
 				}
-				gamestate gs = new gamestate(PacGrid.clonemaze(), PacMan.pacActor.getLocation(), ghlist, PacMan.pacActor.getpills(),
-						KIActor.getpower, PacMan.pacActor.getwalked(), PacMan.pacActor.getPpills());
-				Gaertner gr=new Gaertner(gs,KIData.zeroghost);
-				gr.maketree();
-				Tree_Node root=gr.minmax();
-			
-				gp = new SingleGraph("Tree");
-				gp.addAttribute("ui.quality");
-				gp.addAttribute("ui.antialias");
-				gp.addAttribute("ui.stylesheet", css);
-				vw = gp.display();
-				firstrun = true;
-				btnNewButton.setEnabled(true);
-				vw.enableAutoLayout();
-				vw.setCloseFramePolicy(CloseFramePolicy.CLOSE_VIEWER);
-				
-				new Thread(new Runnable() {
 
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						drawtree(gr.root);
-						try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+				if (KIData.running) {
+					gamestate gs = new gamestate(PacGrid.clonemaze(), PacMan.pacActor.getLocation(), ghlist,
+							PacMan.pacActor.getpills(), KIActor.getpower, PacMan.pacActor.getwalked(),
+							PacMan.pacActor.getPpills());
+					Gaertner gr = new Gaertner(gs, KIData.zeroghost);
+					gr.maketree();
+					Tree_Node root = gr.minmax();
 
+					gp = new SingleGraph("Tree");
+					gp.addAttribute("ui.quality");
+					gp.addAttribute("ui.antialias");
+					gp.addAttribute("ui.stylesheet", css);
+					vw = gp.display();
+					firstrun = true;
+					btnNewButton.setEnabled(true);
+					vw.enableAutoLayout();
+					vw.setCloseFramePolicy(CloseFramePolicy.CLOSE_VIEWER);
+
+					new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							drawtree(gr.root);
+							try {
+								Thread.sleep(3000);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
+						}
+					}).start();
+					;
+				}else{
+					try {
+						new Messagescreen("NO ACTIVE GAME").setVisible(true);
+					} catch (UnknownHostException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				}).start();
-				;
-
+				}
 			}
 		});
 		btnShowTree.setBounds(365, 178, 183, 23);
@@ -213,25 +221,25 @@ public class minmaxwindow extends JFrame {
 		btnNewButton_1.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 15));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Datagraph dg=new Datagraph();
+				Datagraph dg = new Datagraph();
 				dg.setVisible(true);
 			}
 		});
 		btnNewButton_1.setBounds(365, 246, 183, 23);
 		contentPane.add(btnNewButton_1);
-		
+
 		separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setForeground(new Color(255, 153, 0));
 		separator.setBackground(new Color(255, 153, 0));
 		separator.setBounds(10, 0, 17, 302);
 		contentPane.add(separator);
-		
+
 		lblImmage = new JLabel("immage");
 		lblImmage.setIcon(new ImageIcon(minmaxwindow.class.getResource("/res/minmax.png")));
 		lblImmage.setBounds(10, 10, 200, 200);
 		contentPane.add(lblImmage);
-		
+
 		lblcutMinmaxAgent = new JLabel("\"MINIMAX\" AGENT");
 		lblcutMinmaxAgent.setForeground(Color.LIGHT_GRAY);
 		lblcutMinmaxAgent.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 28));
@@ -240,7 +248,7 @@ public class minmaxwindow extends JFrame {
 	}
 
 	public void drawtree(Tree_Node tn) {
-		currentroot=tn;
+		currentroot = tn;
 		int temptest = tn.getState().hashCode();
 		gp.addNode(tn.getState().hashCode() + "");
 		for (Tree_Node tnn : tn.next) {
@@ -260,7 +268,7 @@ public class minmaxwindow extends JFrame {
 		}
 
 		Node tempn = gp.addNode(tn.state.hashCode() + "");
-		//tn.getState().setUtillity(Gaertner.evalution_function(tn.getState()));
+		// tn.getState().setUtillity(Gaertner.evalution_function(tn.getState()));
 		tempn.addAttribute("ui.label", Math.round(tn.getState().getUtillity()));
 
 		if (!tn.isPacmove()) {
