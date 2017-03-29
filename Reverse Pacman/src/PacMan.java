@@ -456,7 +456,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 			
 			
 		
-		System.out.println("REVERSE PACMAN v1.0");
+		System.out.println("REVERSE PACMAN v1.0.1");
 		Mainmenu mu = new Mainmenu();
 
 		mu.setVisible(true);
