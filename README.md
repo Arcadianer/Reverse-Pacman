@@ -1,12 +1,16 @@
 ## Welcome to REVERSE PACMAN
 
-â€žReverse-Pac-Manâ€œ, a variation of the classic Pac-Man game with
+„Reverse-Pac-Man“, a variation of the classic Pac-Man game with
 inverted roles. Pac-Man is a AI-controlled Agent while the ghosts are controlled over an app.
 
-### [Download the beta NOW](https://github.com/Arcadianer/Reverse-Pacman/releases)
+### [Download the newest release](https://github.com/Arcadianer/Reverse-Pacman/releases)
 
-If you can read german you can use this [link](https://github.com/Arcadianer/Reverse-Pacman/raw/pre-merge/(German)%20Documentation(wip).pdf) to read the full documentation.
-**But the documentation is still wip**
+### Installation
+- Extract all files from the zip file
+- Put the files all in the same folder
+- Launch the .jar file with a double click on it or double click on the .bat for more ram usage 
+- Have fun xD ( you need to have fun ... or i will come to you this night and..)
 
-### Tutorial (WIP)
+### Tutorial
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/jY0_ZqyMJ8I/0.jpg)](https://www.youtube.com/watch?v=jY0_ZqyMJ8I "Reverse Pacman Quickstart")
 ### Screenshot (WIP)

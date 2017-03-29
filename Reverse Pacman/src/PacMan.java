@@ -31,9 +31,9 @@ import javax.swing.plaf.synth.SynthSpinnerUI;
 import org.omg.CORBA.INITIALIZE;
 
 import block.block;
+
 /**
- * MAIN CLASS 
- * This class is the core class which control's the game
+ * MAIN CLASS This class is the core class which control's the game
  */
 public class PacMan extends GameGrid implements gamecontroller {
 	/**
@@ -44,7 +44,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 	 * Number of Vertical Blocks
 	 */
 	public static int nbVertCells = 33;
-	
+
 	/**
 	 * Actor of Pacman AI
 	 */
@@ -55,7 +55,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 	 */
 	public static ArrayList<Ghostplayer> playerlist = new ArrayList<Ghostplayer>();
 	/**
-	 *{@link PacGrid} object of the {@link GameGrid} 
+	 * {@link PacGrid} object of the {@link GameGrid}
 	 */
 	public static PacGrid grid;
 	/**
@@ -66,20 +66,22 @@ public class PacMan extends GameGrid implements gamecontroller {
 	 * {@link TcpBridge} that connects the app with the game
 	 */
 	public TcpBridge tpb;
-	
+
 	BufferedImage bi;
 	/**
 	 * {@link KI} core object that controlls Pacman
+	 * 
 	 * @see KI
 	 */
 	public static KI ki;
 	/**
 	 * {@link Sounds}-Object that is responsible for the sound in the game
-	 * @see Sounds 
+	 * 
+	 * @see Sounds
 	 */
 	public static Sounds sounds;
 	/**
-	 *@see Navigation 
+	 * @see Navigation
 	 */
 	public static Navigation navi;
 	/**
@@ -111,7 +113,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 	 */
 	public static Route[][][][] precalclist;
 	/**
-	 * Setting that draws Routes on the Game-Grid 
+	 * Setting that draws Routes on the Game-Grid
 	 */
 	public final static boolean drawrouts = false;
 	private static GGBackground bg;
@@ -120,9 +122,10 @@ public class PacMan extends GameGrid implements gamecontroller {
 	 * Setting that disables the Music
 	 */
 	public static boolean nomusic = false;
-/**
- * Constructor of the PacMan Class
- */
+
+	/**
+	 * Constructor of the PacMan Class
+	 */
 	public PacMan(Sounds sn, PacGrid pg, int players, boolean ghostki) throws IOException, InterruptedException {
 		super(nbHorzCells, nbVertCells, 30, false);
 		KIData.updatestatus("INIT", Color.yellow);
@@ -133,7 +136,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 		setVisible(true);
 		setSimulationPeriod(KIData.simspeed);
 		setTitle("REVERSE PAC-MAN");
-		
+
 		s = new Scanner(System.in);
 		this.bg = getBg();
 		bi = ImageIO.read(this.getClass().getResource("res/test.gif"));
@@ -153,9 +156,8 @@ public class PacMan extends GameGrid implements gamecontroller {
 		pacActor.setSlowDown(1);
 		addActor(pacActor, PacGrid.spawn_pacman);
 
-	
 		// TEST ZONE
-	
+
 		// navi.precalclist=navi.precalcallroutes();
 
 		// INIT DONE
@@ -164,18 +166,17 @@ public class PacMan extends GameGrid implements gamecontroller {
 
 		System.out.println("========= READY TO CONNECT =========");
 		KIData.updatestatus("Waiting", Color.yellow);
-		
 
 		if (!ghostki) {
 
-			KIData.cs=new connectscreen(players);
+			KIData.cs = new connectscreen(players);
 			KIData.cs.setVisible(true);
 		}
 		tpb.ackall();
 		tpb.startlisten();
 		delay(1500);
-		if(!ghostki)
-		KIData.cs.setVisible(false);
+		if (!ghostki)
+			KIData.cs.setVisible(false);
 		KIData.updatestatus("GO !!!", Color.green);
 		if (!debug) {
 			sounds.start.start();
@@ -210,22 +211,26 @@ public class PacMan extends GameGrid implements gamecontroller {
 			killghost();
 			delay(10);
 		}
-	
-		End_Game end=new End_Game(pacwin);
+
+		End_Game end = new End_Game(pacwin);
 		end.setVisible(true);
-	
+		if (pacwin) {
+			KIData.sk.update(1, KIData.Score);
+		}else{
+			KIData.sk.update(0, KIData.Score);
+		}
 		Sounds.chomp.stop();
 		Sounds.gamemusic.stop();
 		nomusic = true;
 		KIData.sk.savelog();
 		doPause();
-		if(KIData.statmode){
-			
+		if (KIData.statmode) {
+
 			tpb.removeall();
 		}
-		
-		if(!KIData.statmode){
-			while(true){
+
+		if (!KIData.statmode) {
+			while (true) {
 				Thread.sleep(1000);
 			}
 		}
@@ -238,10 +243,13 @@ public class PacMan extends GameGrid implements gamecontroller {
 	public static GGBackground getbg() {
 		return bg;
 	}
-/**
- * Initialize {@link Ghostplayer}-objects
- * @param players Number of players between 1-4 
- */
+
+	/**
+	 * Initialize {@link Ghostplayer}-objects
+	 * 
+	 * @param players
+	 *            Number of players between 1-4
+	 */
 	private void howmanyplayer(int players) throws IOException {
 		tpb = new TcpBridge();
 		System.out.println("========= NEW PACMAN GAME =========\n");
@@ -268,7 +276,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 			tpb.addPlayer(temp, "GHOST GHOST");
 			playerlist.add(temp);
 			addActor(temp, PacGrid.spawn_ghost1, Location.NORTH);
-			KIData.zeroghost=true;
+			KIData.zeroghost = true;
 			break;
 		case 1:
 			temp = new Ghostplayer(this, 1, navi);
@@ -330,10 +338,12 @@ public class PacMan extends GameGrid implements gamecontroller {
 		}
 
 	}
-/**
- * Checks if ghost won 
- * @return true if ghost won
- */
+
+	/**
+	 * Checks if ghost won
+	 * 
+	 * @return true if ghost won
+	 */
 	public boolean winforghost() {
 		boolean result = false;
 		if (KIActor.getpower == false) {
@@ -352,9 +362,10 @@ public class PacMan extends GameGrid implements gamecontroller {
 		}
 		return result;
 	}
-/**
- * Kills ghost if the kill conditions are met 
- */
+
+	/**
+	 * Kills ghost if the kill conditions are met
+	 */
 	public void killghost() {
 		if (KIActor.getpower) {
 			Location pacloc = pacActor.getLocation();
@@ -379,13 +390,15 @@ public class PacMan extends GameGrid implements gamecontroller {
 		}
 
 	}
-/**
- * Checks if Pacman wins
- * @return true if Pacman has won
- */
+
+	/**
+	 * Checks if Pacman wins
+	 * 
+	 * @return true if Pacman has won
+	 */
 	public boolean pacwin() {
 
-		if ((pacActor.nbPills) >= PacGrid.points ||  (!KIData.zeroghost&&playerlist.size() == 0)) {
+		if ((pacActor.nbPills) >= PacGrid.points || (!KIData.zeroghost && playerlist.size() == 0)) {
 
 			Sounds.ppsound.stop();
 			Sounds.gamemusic.stop();
@@ -394,9 +407,10 @@ public class PacMan extends GameGrid implements gamecontroller {
 		}
 		return false;
 	}
-/**
- * Draws Pac-Grid 
- */
+
+	/**
+	 * Draws Pac-Grid
+	 */
 	private void drawGrid(GGBackground bg) {
 		bg.clear(Color.black);
 		bg.setPaintColor(Color.white);
@@ -430,46 +444,39 @@ public class PacMan extends GameGrid implements gamecontroller {
 
 	public static void main(String[] args)
 			throws IOException, UnsupportedAudioFileException, LineUnavailableException, InterruptedException {
-		if(args.length>0){
+		if (args.length > 0) {
 			System.out.println("[STAT MODE ACTIVE]");
 			System.out.println("SIMSPEED=5");
-			
-			int aiselect=Integer.valueOf(args[0]);
-			
-		
-		
+
+			int aiselect = Integer.valueOf(args[0]);
+
 			KIData.reset();
-			KIData.statmode=true;
-			KIData.KI_select=aiselect;
-			KIData.simspeed=5; 
-			System.out.println("PP WAIT TIME :"+ (long) (KIData.simspeed*16.66666));
-			PacMan.debug=true;
-			PacMan.playerlist=new ArrayList<Ghostplayer>();
-			PacMan.nomusic=true;
+			KIData.statmode = true;
+			KIData.KI_select = aiselect;
+			KIData.simspeed = 5;
+			System.out.println("PP WAIT TIME :" + (long) (KIData.simspeed * 16.66666));
+			PacMan.debug = true;
+			PacMan.playerlist = new ArrayList<Ghostplayer>();
+			PacMan.nomusic = true;
 			PacMan pm = new PacMan(new Sounds(), new PacGrid("level/level1"), 2, true);
-			pm=null;
-			
-			
-		
-		
-		}else{
-			
-			
-		
-		System.out.println("REVERSE PACMAN v1.0 beta.2");
-		Mainmenu mu = new Mainmenu();
+			pm = null;
 
-		mu.setVisible(true);
-		while (mu.wait) {
-			Thread.sleep(1000);
+		} else {
+
+			System.out.println("REVERSE PACMAN v1.0.1");
+			Mainmenu mu = new Mainmenu();
+
+			mu.setVisible(true);
+			while (mu.wait) {
+				Thread.sleep(1000);
+			}
+			mu.wait = true;
+
+			PacMan pm = new PacMan(mu.sn, mu.pg, mu.Player, mu.Ghostki);
+
+			mu.dispose();
+			mu = null;
 		}
-		mu.wait = true;
-
-		PacMan pm = new PacMan(mu.sn, mu.pg, mu.Player, mu.Ghostki);
-
-		mu.dispose();
-		mu = null;
-	}
 		System.exit(0);
 
 	}
@@ -477,29 +484,35 @@ public class PacMan extends GameGrid implements gamecontroller {
 	public static ArrayList<Ghostplayer> getPlayerlist() {
 		return playerlist;
 	}
-/*
- * (non-Javadoc)
- * @see gamecontroller#pause()
- */
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gamecontroller#pause()
+	 */
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
 		doPause();
 		KIData.updatestatus("PAUSE", Color.RED);
 	}
-/*
- * (non-Javadoc)
- * @see gamecontroller#resume()
- */
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gamecontroller#resume()
+	 */
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
 		doRun();
 	}
-/*
- * (non-Javadoc)
- * @see gamecontroller#musicstop()
- */
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gamecontroller#musicstop()
+	 */
 	@Override
 	public void musicstop() {
 		// TODO Auto-generated method stub
@@ -508,20 +521,24 @@ public class PacMan extends GameGrid implements gamecontroller {
 		Sounds.ppsound.stop();
 
 	}
-/*
- * (non-Javadoc)
- * @see gamecontroller#musicplay()
- */
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gamecontroller#musicplay()
+	 */
 	@Override
 	public void musicplay() {
 		// TODO Auto-generated method stub
 		nomusic = false;
 		Sounds.gamemusic.start();
 	}
-/*
- * (non-Javadoc)
- * @see gamecontroller#setgamespeed(int)
- */
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gamecontroller#setgamespeed(int)
+	 */
 	@Override
 	public void setgamespeed(int speed) {
 		// TODO Auto-generated method stub
@@ -529,10 +546,12 @@ public class PacMan extends GameGrid implements gamecontroller {
 		setSimulationPeriod(speed);
 		doRun();
 	}
-/*
- * (non-Javadoc)
- * @see gamecontroller#dostep()
- */
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gamecontroller#dostep()
+	 */
 	@Override
 	public void dostep() {
 		// TODO Auto-generated method stub

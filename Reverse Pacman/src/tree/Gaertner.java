@@ -34,7 +34,8 @@ public class Gaertner {
 	 * 
 	 * @return Number of Terminal Stats
 	 */
-	public int maketree() {
+	public int maketree(int debth) {
+		Gaertner.tree_debth=debth;
 		devcount = 0;
 		root.develop(0);
 		leaves = new ArrayList<Tree_Node>();
