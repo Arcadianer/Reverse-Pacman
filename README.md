@@ -2,6 +2,7 @@
 
 „Reverse-Pac-Man“, a variation of the classic Pac-Man game with
 inverted roles. Pac-Man is a AI-controlled Agent while the ghosts are controlled over an app.
+This is an school project designed to be an toolbox for further testing of newer AI Agends.
 
 ### [Download the newest release](https://github.com/Arcadianer/Reverse-Pacman/releases)
 
