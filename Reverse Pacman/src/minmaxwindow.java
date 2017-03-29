@@ -71,6 +71,7 @@ public class minmaxwindow extends JFrame {
 	public JSeparator separator;
 	public JLabel lblImmage;
 	public JLabel lblcutMinmaxAgent;
+	public Tree_Node currentroot;
 	
 
 
@@ -156,7 +157,7 @@ public class minmaxwindow extends JFrame {
 				if (firstrun) {
 					if (!(vw == null)) {
 						AStar astar = new AStar(gp);
-						astar.compute(KIData.root.getState().hashCode() + "", extrem.getState().hashCode() + "");
+						astar.compute(currentroot.getState().hashCode() + "", extrem.getState().hashCode() + "");
 						Path tes = astar.getShortestPath();
 						String gss = css;
 						gp.changeAttribute("ui.stylesheet", gss);
@@ -239,6 +240,7 @@ public class minmaxwindow extends JFrame {
 	}
 
 	public void drawtree(Tree_Node tn) {
+		currentroot=tn;
 		int temptest = tn.getState().hashCode();
 		gp.addNode(tn.getState().hashCode() + "");
 		for (Tree_Node tnn : tn.next) {

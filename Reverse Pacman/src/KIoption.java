@@ -148,7 +148,13 @@ public class KIoption extends JFrame implements kidataupdater {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
-				KIData.gm.setgamespeed((int) spinner.getValue());
+				try {
+					KIData.gm.setgamespeed((int) spinner.getValue());
+				
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+				KIData.simspeed=(int) spinner.getValue();
 			}
 		});
 		lblSimspeed = new JLabel("Simspeed :");
