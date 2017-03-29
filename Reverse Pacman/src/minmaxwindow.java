@@ -103,11 +103,12 @@ public class minmaxwindow extends JFrame {
 				}
 
 				if (KIData.running) {
+					KIData.Tree_Debth=(int)spinner.getValue();
 					gamestate gs = new gamestate(PacGrid.clonemaze(), PacMan.pacActor.getLocation(), ghlist,
 							PacMan.pacActor.getpills(), KIActor.getpower, PacMan.pacActor.getwalked(),
 							PacMan.pacActor.getPpills());
 					Gaertner gr = new Gaertner(gs, KIData.zeroghost);
-					gr.maketree();
+					gr.maketree(KIData.Tree_Debth);
 					Tree_Node root = gr.minmax();
 
 					gp = new SingleGraph("Tree");

@@ -279,104 +279,107 @@ public class KI {
 	 * Algorithm that avoids Ghost
 	 */
 	public void ghostavoid() {
-		AVOIDING_RANGE = KIData.Ghost_Scare_distance;
-		actor.eatPill(actor.getLocation());
-		Location pacloc = actor.getLocation();
-		ArrayList<Ghostplayer> gp = PacMan.getPlayerlist();
-		Ghostplayer ghostyouaretoclose = null;
-		// searches for ghost to close to pacman
-		for (Ghostplayer gh : gp) {
-			int radarlength = navi.simplelenghth(actor.getLocation(), gh.getLocation());
-			if (radarlength < AVOIDING_RANGE) {
-				ghostyouaretoclose = gh;
-				break;
-			}
-
-		}
-		if (forceavoid) {
-			Ghostplayer minn = gp.get(0);
+		if (!KIData.zeroghost) {
+			AVOIDING_RANGE = KIData.Ghost_Scare_distance;
+			actor.eatPill(actor.getLocation());
+			Location pacloc = actor.getLocation();
+			ArrayList<Ghostplayer> gp = PacMan.getPlayerlist();
+			Ghostplayer ghostyouaretoclose = null;
+			// searches for ghost to close to pacman
 			for (Ghostplayer gh : gp) {
 				int radarlength = navi.simplelenghth(actor.getLocation(), gh.getLocation());
-				if (radarlength < navi.simplelenghth(actor.getLocation(), minn.getLocation())) {
+				if (radarlength < AVOIDING_RANGE) {
 					ghostyouaretoclose = gh;
-					minn = gh;
 					break;
 				}
-			}
-		}
-		/*
-		 * Avoid ghost
-		 */
-		if (!(ghostyouaretoclose == null)) {
-			KIData.updatestatus("GHOST ALERT", Color.RED);
-			warningghost = true;
-			onroute = false;
-			boolean testloc1 = navi.movinglist[pacloc.y - 1][pacloc.x];
-			boolean testloc2 = navi.movinglist[pacloc.y + 1][pacloc.x];
-			boolean testloc3 = navi.movinglist[pacloc.y][pacloc.x - 1];
-			boolean testloc4 = navi.movinglist[pacloc.y][pacloc.x + 1];
-			ArrayList<Location> chloc = new ArrayList<Location>();
-			if (testloc1)
-				chloc.add(new Location(pacloc.x, pacloc.y - 1));
-			if (testloc2)
-				chloc.add(new Location(pacloc.x, pacloc.y + 1));
-			if (testloc3)
-				chloc.add(new Location(pacloc.x - 1, pacloc.y));
-			if (testloc4)
-				chloc.add(new Location(pacloc.x + 1, pacloc.y));
-			Route testrout = navi.ASearch(pacloc, ghostyouaretoclose.getLocation());
-			CompassDirection c;
-			try {
-				c = pacloc.getCompassDirectionTo(testrout.next());
-				chloc.remove(testrout.getnextcord(pacloc));
-			} catch (Exception e) {
-				// TODO: handle exception
 
 			}
-
-			if (chloc.size() == 1) {
-				c = pacloc.getCompassDirectionTo(chloc.get(0));
-				if (!zappelstop(c)) {
-					if (c.equals(c.NORTH)) {
-						actor.up();
-					} else if (c.equals(c.SOUTH)) {
-						actor.down();
-					} else if (c.equals(c.EAST)) {
-						actor.right();
-					} else if (c.equals(c.WEST)) {
-						actor.left();
+			if (forceavoid) {
+				Ghostplayer minn = gp.get(0);
+				for (Ghostplayer gh : gp) {
+					int radarlength = navi.simplelenghth(actor.getLocation(), gh.getLocation());
+					if (radarlength < navi.simplelenghth(actor.getLocation(), minn.getLocation())) {
+						ghostyouaretoclose = gh;
+						minn = gh;
+						break;
 					}
 				}
-			} else {
-				Route escape = findroutetopillwithwhitelist(chloc);
-				if (!(escape.getCordlist().size() > 1)) {
-					if (!zappelstop(pacloc.getCompassDirectionTo(escape.getnextcord(pacloc)))) {
-						try {
-							navi.walkroute(escape, actor);
-						} catch (Exception e) {
-							System.out.println("[AI] SHIT");
-							System.out.println(e.getMessage());
+			}
+			/*
+			 * Avoid ghost
+			 */
+			if (!(ghostyouaretoclose == null)) {
+				KIData.updatestatus("GHOST ALERT", Color.RED);
+				warningghost = true;
+				onroute = false;
+				boolean testloc1 = navi.movinglist[pacloc.y - 1][pacloc.x];
+				boolean testloc2 = navi.movinglist[pacloc.y + 1][pacloc.x];
+				boolean testloc3 = navi.movinglist[pacloc.y][pacloc.x - 1];
+				boolean testloc4 = navi.movinglist[pacloc.y][pacloc.x + 1];
+				ArrayList<Location> chloc = new ArrayList<Location>();
+				if (testloc1)
+					chloc.add(new Location(pacloc.x, pacloc.y - 1));
+				if (testloc2)
+					chloc.add(new Location(pacloc.x, pacloc.y + 1));
+				if (testloc3)
+					chloc.add(new Location(pacloc.x - 1, pacloc.y));
+				if (testloc4)
+					chloc.add(new Location(pacloc.x + 1, pacloc.y));
+				Route testrout = navi.ASearch(pacloc, ghostyouaretoclose.getLocation());
+				CompassDirection c;
+				try {
+					c = pacloc.getCompassDirectionTo(testrout.next());
+					chloc.remove(testrout.getnextcord(pacloc));
+				} catch (Exception e) {
+					// TODO: handle exception
+
+				}
+
+				if (chloc.size() == 1) {
+					c = pacloc.getCompassDirectionTo(chloc.get(0));
+					if (!zappelstop(c)) {
+						if (c.equals(c.NORTH)) {
+							actor.up();
+						} else if (c.equals(c.SOUTH)) {
+							actor.down();
+						} else if (c.equals(c.EAST)) {
+							actor.right();
+						} else if (c.equals(c.WEST)) {
+							actor.left();
 						}
 					}
-				}else{
-					KIData.updatestatus("SHIT", Color.RED);
-				}
-
-			}
-			for (Ghostplayer gh : gp) {
-				int radarlength = navi.simplelenghth(actor.getLocation(), gh.getLocation());
-				if (radarlength < AVOIDING_RANGE + 1) {
-					forceavoid = true;
-					break;
 				} else {
-					forceavoid = false;
-					warningghost = false;
+					Route escape = findroutetopillwithwhitelist(chloc);
+					if (!(escape.getCordlist().size() > 1)) {
+						if (!zappelstop(pacloc.getCompassDirectionTo(escape.getnextcord(pacloc)))) {
+							try {
+								navi.walkroute(escape, actor);
+							} catch (Exception e) {
+								System.out.println("[AI] SHIT");
+								System.out.println(e.getMessage());
+							}
+						}
+					} else {
+						KIData.updatestatus("SHIT", Color.RED);
+					}
+
+				}
+				for (Ghostplayer gh : gp) {
+					int radarlength = navi.simplelenghth(actor.getLocation(), gh.getLocation());
+					if (radarlength < AVOIDING_RANGE + 1) {
+						forceavoid = true;
+						break;
+					} else {
+						forceavoid = false;
+						warningghost = false;
+					}
+
 				}
 
-			}
+			} else {
+				warningghost = false;
 
-		} else {
-			warningghost = false;
+			}
 
 		}
 
@@ -504,7 +507,7 @@ public class KI {
 		Gaertner test = new Gaertner(gs, KIData.zeroghost);
 		test.block = this.block;
 
-		int states = test.maketree();
+		int states = test.maketree(KIData.Tree_Debth);
 
 		Tree_Node result = test.minmax();
 		block = null;
@@ -578,7 +581,7 @@ public class KI {
 		Gaertner test = new Gaertner(gs, KIData.zeroghost);
 		test.block = this.block;
 
-		int states = test.maketree();
+		int states = test.maketree(KIData.Tree_Debth);
 
 		Tree_Node result = test.minmax();
 		block = null;
