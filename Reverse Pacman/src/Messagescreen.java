@@ -53,7 +53,7 @@ public class Messagescreen extends JFrame {
 		lblReadyToConnect.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 20));
 		lblReadyToConnect.setBounds(37, 11, 424, 89);
 		contentPane.add(lblReadyToConnect);
-		
+		setVisible(true);
 	
 	}
 	
