@@ -191,14 +191,16 @@ public class PacMan extends GameGrid implements gamecontroller {
 		for (Ghostplayer gh : playerlist) {
 			ghlist.add(gh.getLocation());
 		}
-		if (playerlist.size() == 2 && PacGrid.Name.equals("level/level1")) {
-			KIData.sk.startlog();
-		}
+		
 		navi.getpills();
 
 		show();
 		doRun();
-
+		if (playerlist.size() == 2 && PacGrid.Name.equals("level/level1")) {
+			KIData.sk.startlog();
+		}else{
+			KIData.updatestatus("NO STAT RUN", Color.yellow);
+		}
 		// Loop to look for collision in the application thread
 		// This makes it improbable that we miss a hit
 
@@ -463,7 +465,7 @@ public class PacMan extends GameGrid implements gamecontroller {
 
 		} else {
 
-			System.out.println("REVERSE PACMAN v1.0.1");
+			System.out.println("REVERSE PACMAN v1.0.3");
 			Mainmenu mu = new Mainmenu();
 
 			mu.setVisible(true);
