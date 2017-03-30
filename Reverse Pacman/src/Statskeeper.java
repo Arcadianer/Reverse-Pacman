@@ -210,6 +210,7 @@ public class Statskeeper {
 				System.out.println(aiid);
 				System.out.println(savestring);
 				System.out.println("[Stat Keeper] Stats saved");
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
