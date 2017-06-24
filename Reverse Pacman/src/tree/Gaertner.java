@@ -151,7 +151,7 @@ public class Gaertner {
 				pdis = temp;
 			}
 		}
-		double ppilldis = 10.0 / pdis;
+		double ppilldis = 15.0 / pdis;
 		/*
 		 * if(pilldistancerandome){ pilldis=-(Math.random()*100); }
 		 */
@@ -180,12 +180,12 @@ public class Gaertner {
 
 				double temp = simplelenghth(gs.pacloc, ghloc);
 				if (temp == 0) {
-					ghdisscore = ghdisscore + 100.0;
+					ghdisscore = ghdisscore + 10000000.0;
 				} else if (temp <= 3) {
 
-					ghdisscore = ghdisscore + (50.0 / (temp * temp * temp * temp ));
+					ghdisscore = ghdisscore + (100000.0 / (temp * temp * temp * temp ));
 				} else {
-					ghdisscore = ghdisscore + (20.0 / temp);
+					ghdisscore = ghdisscore + (10000.0 / temp);
 				}
 
 			}
@@ -210,8 +210,8 @@ public class Gaertner {
 		}
 
 		// result=result-gs.pacwalked*1;
-		gs.setPpillscore(gs.Ppills * 10);
-		result = result + gs.Ppills * 10;
+		gs.setPpillscore(gs.Ppills * 16);
+		result = result + gs.Ppills * 16;
 
 		return result;
 	}
